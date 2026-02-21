@@ -41,7 +41,7 @@ sonarr:
     
     # Custom Format Groups
     # https://github.com/TRaSH-Guides/Guides/tree/master/docs/json/sonarr/cf-groups
-    # These ONLY apply to guide-backed profiles (they will not work with the custom AMZN DV profile)
+    # Using assign_scores_to to force sync to both guide-backed profile and custom (AMZN DV) profile
     custom_format_groups:
       add:
         - trash_id: d776a1ea912a117d66d83b880ff2055d  # [HDR Formats] DV (w/o HDR fallback)
@@ -54,14 +54,29 @@ sonarr:
             - e1a997ddb54e3ecbfe06341ad323c458 # Obfuscated
             - 06d66ab109d4d2eddb2794d21526d140 # Retags
             - 1b3994c551cbb92a2c781af061f4ab44 # Scene
+          assign_scores_to:
+            - name: WEB-2160p (AMZN DV)
+            - trash_id: d1498e7d189fbe6c7110ceaabb7473e6 # WEB-2160p
         - trash_id: e1053c0ef622df3749fa43c22865663a  # [Optional] SDR
           select: 
             - 83304f261cf516bb208c18c54c0adf97 # SDR (no WEBDL)
+          assign_scores_to:
+            - name: WEB-2160p (AMZN DV)
+            - trash_id: d1498e7d189fbe6c7110ceaabb7473e6 # WEB-2160p
         - trash_id: d920fd959d220306888f40b6f38e1578  # [Optional] Season Packs
+          assign_scores_to:
+            - name: WEB-2160p (AMZN DV)
+            - trash_id: d1498e7d189fbe6c7110ceaabb7473e6 # WEB-2160p
+
+        # This CF group is default for WEB-2160p. Including it here to sync it with WEB-2160p (AMZN DV) profile
+        - trash_id: abe720fab2d27682adc2a735136cec02 # [Streaming Services] General
+          assign_scores_to:
+            - name: WEB-2160p (AMZN DV)
+            - trash_id: d1498e7d189fbe6c7110ceaabb7473e6 # WEB-2160p
 
     # Custom Formats:
     # https://github.com/TRaSH-Guides/Guides/tree/master/docs/json/sonarr/cf
-    # Keeping these manual CF entries purely for the custom AMZN DV quality profile
+    # Manual CF assignments for (AMZN DV) profile
     custom_formats:
       - trash_ids:
         - 7c3a61a9c6cb04f52f1544be6d44a026 # DV Boost
@@ -71,30 +86,7 @@ sonarr:
         - 9b27ab6498ec0f31a3353992e19434ca # DV (w/o HDR fallback)
         assign_scores_to:
           - name: WEB-2160p (AMZN DV)
-            score: 500
-
-      # Optional
-      - trash_ids:
-          - 32b367365729d530ca1c124a0b180c64 # Bad Dual Groups
-          - 82d40da2bc6923f41e14394075dd4b03 # No-RlsGroup
-          - e1a997ddb54e3ecbfe06341ad323c458 # Obfuscated
-          - 06d66ab109d4d2eddb2794d21526d140 # Retags
-          - 1b3994c551cbb92a2c781af061f4ab44 # Scene
-          - 3bc5f395426614e155e585a2f056cdf1 # Prefer season packs
-        assign_scores_to:
-          - name: WEB-2160p (AMZN DV)
-
-      # Optional SDR
-      # Only ever use ONE of the following custom formats:
-      # SDR - block ALL SDR releases
-      # SDR (no WEBDL) - block UHD/4k Remux and Bluray encode SDR releases, but allow SDR WEB
-      - trash_ids:
-          #- 2016d1676f5ee13a5b7257ff86ac9a93 # SDR
-          - 83304f261cf516bb208c18c54c0adf97 # SDR (no WEBDL)
-        assign_scores_to:
-          - name: WEB-2160p (AMZN DV)
-
-      # DUPLICATE OF 2160P TEMPLATE INCLUDE FOR (AMZN DV VERSION)
+            score: 500 # Tweaking score to PREFER DV ONLY files (NOT combo DV/HDR)
       - trash_ids:
           # Unwanted
           - 85c61753df5da1fb2aab6f2a47426b09 # BR-DISK
@@ -110,23 +102,6 @@ sonarr:
           - 44e7c4de10ae50265753082e5dc76047 # Repack v3
 
           # Streaming Services
-          - d660701077794679fd59e8bdf4ce3a29 # AMZN
-          - f67c9ca88f463a48346062e8ad07713f # ATVP
-          - 77a7b25585c18af08f60b1547bb9b4fb # CC
-          - 36b72f59f4ea20aad9316f475f2d9fbb # DCU
-          - dc5f2bb0e0262155b5fedd0f6c5d2b55 # DSCP
-          - 89358767a60cc28783cdc3d0be9388a4 # DSNP
-          - 7a235133c87f7da4c8cccceca7e3c7a6 # HBO
-          - a880d6abc21e7c16884f3ae393f84179 # HMAX
-          - f6cce30f1733d5c8194222a7507909bb # Hulu
-          - 0ac24a2a68a9700bcb7eeca8e5cd644c # iT
-          - 81d1fbf600e2540cee87f3a23f9d3c1c # MAX
-          - d34870697c9db575f17700212167be23 # NF
-          - 1656adc6d7bb2c8cca6acfb6592db421 # PCOK
-          - c67a75ae4a1715f2bb4d492755ba4195 # PMTP
-          - ae58039e1319178e6be73caab5c42166 # SHO
-          - 1efe8da11bfd74fbbcd4d8117ddb9213 # STAN
-          - 9623c5c9cac8e939c1b9aedd32f640bf # SYFY
           - 43b3cf48cb385cd3eac608ee6bca7f09 # UHD Streaming Boost
           - 218e93e5702f44a68ad9e3c6ba87d2f0 # HD Streaming Boost
 
